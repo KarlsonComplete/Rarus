@@ -4,34 +4,36 @@ $s2 = '(())';
 $s3 = '((()))';
 $s4 = '(';
 $s5 = '((())';
-$s6 = '))()))';
+$s6 = '))))((((';
 
-    function isCorrect($string){
-        # Массив скобок
-        $brackets = array(
 
-            array('(', ')')
-        );
-            var_dump($brackets);
-           echo '<br>';
+function isCorrect($string){
+        $len = mb_strlen($string);
+        $stack = [];
 
-        # Обходим массив скобок
-        foreach( $brackets as $bracket ){
-            # Считаем количество
-            if( substr_count($string, $bracket[0]) != substr_count($string, $bracket[1]) )
-                # Если количество не совпадает - ошибка
-                return false;
+        for ($i=0; $i<$len;$i++){
+            $sim=mb_substr($string,$i,1);
+            if ($sim =='('){
+                $stack[]=$sim;
+               //var_dump($stack);
+            }elseif ($sim == ')'){
+                if (!$last = array_pop($stack)){
+                    return false;
+                }
+                if ($sim === ')' && $last !='('){
+                    return false;
+                }
+            }
         }
+        return count($stack) === 0;
+}
 
-        # По умолчанию
-            return true;
-    }
-
-
-if(isCorrect($s2)) {
+if(isCorrect($s5)) {
     echo 'Строка верна';
 }
 else {
     echo 'Строка не верна';
 }
+
+
 

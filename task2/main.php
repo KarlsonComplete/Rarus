@@ -23,38 +23,45 @@
 
             <div class=" col-md-7 col-lg-8">
                 <h4 class="mb-3">Заполните форму!</h4>
+                <?php if($_SESSION['success'] == true){?>
+                <div class="alert alert-success"><?=$_SESSION['success'];?></div><?php }?>
                 <form action="valid_handler.php" method="post" enctype="multipart/form-data" >
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="firstName" class="form-label">Имя</label>
                             <input type="text" name="name" class="form-control" value="<?= $_SESSION['name'];?>" id="firstName" placeholder="" required="required">
-                            <div class="text-danger"><?=$_SESSION['error_name']?></div>
+                            <?php if($_SESSION['error_name'] == true){?>
+                            <div class="text-danger"><?=$_SESSION['error_name']?></div><?php }?>
                         </div>
 
                         <div class="col-sm-6">
                             <label for="lastName" class="form-label">Фамилия</label>
-                            <input type="text" name="lastname"  class="form-control" id="lastName" value="<?= $_SESSION['lastname'];?>" placeholder=""  required="required">
-                            <div class="text-danger"><?=$_SESSION['error_lastname']?></div>
+                            <input type="text" name="lastname"  class="form-control" id="lastName" value="<?= $_SESSION['lastname'];?>" placeholder="" required="required" >
+                            <?php if($_SESSION['error_lastname'] == true){?>
+                            <div class="text-danger"><?=$_SESSION['error_lastname']?></div><?php }?>
                         </div>
 
                         <div class="col-sm-6">
                             <label for="patronymic" class="form-label">Отчество</label>
                             <input type="text" name="patronymic" class="form-control" id="lastName" value="<?=$_SESSION['patronymic'];?>" placeholder="" required="required" >
-                            <span class="error"><?= $_SESSION['error_patronymic'];?></span>
+                            <?php if($_SESSION['error_patronymic'] == true){?>
+                            <div class="text-danger"><?= $_SESSION['error_patronymic'];?></div><?php }?>
                         </div>
 
                         <div class="col-12">
                             <label for="PhoneNumber" class="form-label">Номер телефона</label>
                             <div class="input-group has-validation">
-                                <input name="phone" type="text" value="<?= $_SESSION['phone'];?>" class="form-control"  id="username" placeholder="Номер телефона" required="required">
-                                <span class="error"><?= $_SESSION['error_phone'];?></span>
+                                <input name="phone" type="text" value="<?= $_SESSION['phone'];?>" class="form-control"  id="username" placeholder="Номер телефона" required="required" >
+                                <?php if($_SESSION['error_phone'] == true){?>
+                                <div class="text-danger"><?= $_SESSION['error_phone'];?></div><?php }?>
                             </div>
                         </div>
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
                             <input type="email" name="email" class="form-control" id="email"  placeholder="you@example.com">
-                            <div class="text-danger"><?=$_SESSION['error_email'],$_SESSION['error_domain_email']?></div>
+                            <?php if($_SESSION['error_email'] || $_SESSION['error_domain_email'] == true){?>
+                            <div class="text-danger"><?=$_SESSION['error_email'],$_SESSION['error_domain_email']?></div><?php }?>
                         </div>
 
                         <div class="col-12">
@@ -77,8 +84,6 @@
                         <hr class="my-4">
 
                         <button type="submit" class="btn btn-success">Отправить форму</button>
-
-
                 </form>
             </div>
         </div>

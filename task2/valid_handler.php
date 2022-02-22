@@ -11,6 +11,7 @@ unset($_SESSION['error_patronymic']);
 unset($_SESSION['error_phone']);
 unset($_SESSION['error_email']);
 unset($_SESSION['error_domain_email']);
+unset($_SESSION['success']);
 
 function redirect(){
     header('Location:main.php');
@@ -87,20 +88,29 @@ if (!empty($_FILES['file'])){
 }
 
 //Проверка email
-if(strlen($email)<10 || strpos($email,"@")==false){
-    $_SESSION['error_email']=$error_email="Вы ввели некоретный email";
-        redirect();
-}
-// Проверка на домен
-$domain_list = ["@gmail.com"];
-$imp_list = join($domain_list);
-//var_dump($imp_list);
- if(preg_match("/($imp_list)/iu", $email, $m)){
-    $_SESSION['error_domain_email'] =$error_domain_email='Домен ' . str_replace('@', '', $m[0]) . ' использовать нельзя';
-    redirect();
+if (empty($_POST['email'])){
+    $email=$_POST['email'];
+    $email=NULL;
 }else {
-     "";
- }
+    if (strlen($email) < 10 || strpos($email, "@") == false) {
+        $_SESSION['error_email'] = $error_email = "Вы ввели некоретный email";
+        redirect();
+    }
+// Проверка на домен
+    $domain_list = ["@gmail.com"];
+    $imp_list = join($domain_list);
+//var_dump($imp_list);
+    if (preg_match("/($imp_list)/iu", $email, $m)) {
+        $_SESSION['error_domain_email'] = $error_domain_email = 'Домен ' . str_replace('@', '', $m[0]) . ' использовать нельзя';
+        redirect();
+    } else {
+        "";
+    }
+}
 
+if(empty($_SESSION['error_name'] && $_SESSION['error_lastname'] && $_SESSION['error_patronymic'] && $_SESSION['error_phone'] &&$_SESSION['error_email'] && $_SESSION['error_domain_email'])){
+    $_SESSION['success'] = "Вы успешно отправили форму!";
+    redirect();
+}
 ?>
 
